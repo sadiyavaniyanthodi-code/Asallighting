@@ -1,54 +1,123 @@
-/* Layout: a black stage. A wall of crystal chandeliers hangs from the top edge in three depth
-   rows (a canvas, see script.js). The logo and invitation text appear beneath them, then one
-   framed details panel in gold hairlines. */
+/* ==========================================
+   AL SHOMU AL LAMEA
+   LUXURY BLACK AND GOLD INVITATION
+========================================== */
 
 :root {
   --ink: #070707;
   --panel: #0e0d0b;
+
+  --gold-1: #b8892b;
   --gold-2: #e9c766;
+  --gold-3: #f6e3a1;
+
   --gold-line: rgba(233, 199, 102, 0.38);
+
   --text: #f4eee0;
   --text-soft: #c9c0ab;
 
-  --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --font-display: "Cinzel", Georgia, serif;
   --font-body: "Montserrat", "Segoe UI", Arial, sans-serif;
 
-  --gold-gradient: linear-gradient(100deg, #b8892b 0%, #f6e3a1 32%, #d9a93f 52%, #fff1c1 70%, #b8892b 100%);
+  --gold-gradient: linear-gradient(
+    100deg,
+    #b8892b 0%,
+    #f6e3a1 32%,
+    #d9a93f 52%,
+    #fff1c1 70%,
+    #b8892b 100%
+  );
 
-  --hang: clamp(340px, 54vw, 570px);   /* height of the chandelier wall */
+  --hang: clamp(320px, 40vw, 480px);
   --gutter: 16px;
-  --column: 1000px;
+  --column: 1100px;
 
   color-scheme: dark;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+/* ==========================================
+   GLOBAL
+========================================== */
 
-html { scroll-behavior: smooth; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
 
 body {
+  width: 100%;
+  min-width: 0;
   margin: 0;
+
   background:
-    radial-gradient(ellipse 70% 45% at 50% 0%, #1f1709 0%, rgba(31, 23, 9, 0) 72%),
+    radial-gradient(
+      ellipse 70% 45% at 50% 0%,
+      #1f1709 0%,
+      rgba(31, 23, 9, 0) 72%
+    ),
     var(--ink);
+
   background-attachment: fixed;
   color: var(--text);
+
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.55;
-  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
-  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
-  padding-block: 0 48px;
-  overflow-x: hidden;
+
+  padding-left: max(
+    var(--gutter),
+    env(safe-area-inset-left, 0px)
+  );
+
+  padding-right: max(
+    var(--gutter),
+    env(safe-area-inset-right, 0px)
+  );
+
+  padding-bottom: 48px;
+  overflow-x: clip;
 }
 
-img { max-width: 100%; height: auto; display: block; }
-p, h1, h2, figure, address { margin: 0; }
-address { font-style: normal; }
+img,
+canvas {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+  display: block;
+}
+
+p,
+h1,
+h2,
+figure,
+address {
+  margin: 0;
+}
+
+address {
+  font-style: normal;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-width: 0;
+}
 
 .visually-hidden {
   position: absolute !important;
-  width: 1px; height: 1px;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
@@ -56,7 +125,8 @@ address { font-style: normal; }
 
 .skip {
   position: absolute;
-  left: 16px; top: -64px;
+  left: 16px;
+  top: -64px;
   padding: 10px 16px;
   border-radius: 6px;
   background: var(--gold-2);
@@ -64,9 +134,32 @@ address { font-style: normal; }
   font-weight: 600;
   z-index: 30;
 }
-.skip:focus { top: 12px; }
 
-:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 4px; }
+.skip:focus {
+  top: 12px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-2);
+  outline-offset: 4px;
+}
+
+/* ==========================================
+   GOLD TEXT
+========================================== */
+
+.gold {
+  background: var(--gold-gradient);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ==========================================
+   FLOATING GOLDEN DUST
+========================================== */
 
 #dust {
   position: fixed;
@@ -78,84 +171,169 @@ address { font-style: normal; }
   animation: fade 3s ease 1.5s both;
 }
 
-.page { position: relative; z-index: 1; }
-
-.gold {
-  background: var(--gold-gradient);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-/* ---------- Stage ---------- */
+/* ==========================================
+   MAIN INVITATION STAGE
+========================================== */
 
 .stage {
   position: relative;
-  margin-inline: calc(-1 * max(var(--gutter), env(safe-area-inset-left, 0px)));
-  padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px));
-  padding-block: var(--hang) 56px;
+  isolation: isolate;
+
+  margin-left: calc(
+    -1 * max(var(--gutter), env(safe-area-inset-left, 0px))
+  );
+
+  margin-right: calc(
+    -1 * max(var(--gutter), env(safe-area-inset-right, 0px))
+  );
+
+  padding-left: max(
+    var(--gutter),
+    env(safe-area-inset-left, 0px)
+  );
+
+  padding-right: max(
+    var(--gutter),
+    env(safe-area-inset-right, 0px)
+  );
+
+  padding-top: var(--hang);
+  padding-bottom: 48px;
   overflow: hidden;
 }
 
-/* a warm wash behind the lights that comes up as they ignite */
+/* ==========================================
+   SOFT CONTINUOUS GOLDEN ILLUMINATION
+   No harsh split shadows
+========================================== */
+
 .stage::before {
   content: "";
   position: absolute;
-  inset: 0 0 auto 0;
-  height: calc(var(--hang) * 1.6);
-  background: radial-gradient(ellipse 60% 60% at 50% 20%, rgba(255, 205, 120, 0.16), rgba(255, 205, 120, 0));
+  top: 0;
+  left: 50%;
+
+  width: 120%;
+  height: var(--hang);
+
+  transform: translateX(-50%);
   pointer-events: none;
-  animation: fade 3s ease 1.4s both;
+  z-index: 0;
+
+  background: radial-gradient(
+    ellipse 65% 48% at 50% 28%,
+    rgba(255, 215, 140, 0.075) 0%,
+    rgba(255, 200, 110, 0.035) 42%,
+    rgba(255, 190, 90, 0.01) 65%,
+    transparent 78%
+  );
+
+  animation: softChandelierGlow 6s ease-in-out infinite;
 }
 
-.lights {
+@keyframes softChandelierGlow {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ==========================================
+   CHANDELIER CANVAS
+   Wider appearance, same height
+========================================== */
+
+.lights,
+#lights {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--hang);
+  left: 50%;
+
   display: block;
+
+  width: 125%;
+  max-width: none;
+  height: var(--hang);
+
+  transform: translateX(-50%);
+
   pointer-events: none;
+  z-index: 0;
+
+  filter: drop-shadow(
+    0 0 7px rgba(255, 210, 120, 0.12)
+  );
+
+  animation: chandelierGlow 5s ease-in-out infinite;
 }
 
-/* ---------- Invitation text ---------- */
+@keyframes chandelierGlow {
+  0%,
+  100% {
+    filter: drop-shadow(
+      0 0 5px rgba(255, 210, 120, 0.09)
+    );
+  }
+
+  50% {
+    filter: drop-shadow(
+      0 0 11px rgba(255, 220, 150, 0.17)
+    );
+  }
+}
+
+/* Invitation content stays above the chandelier */
 
 .stage__inner {
   position: relative;
   z-index: 1;
+
+  width: 100%;
   max-width: var(--column);
   margin: 0 auto;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
+/* ==========================================
+   LOGO
+========================================== */
+
 .logo {
-  width: min(320px, 70vw);
-  padding: 6px;
-  border: 1px solid var(--gold-line);
-  border-radius: 26px;
-  background: linear-gradient(180deg, rgba(233, 199, 102, 0.22), rgba(233, 199, 102, 0.04));
-  box-shadow: 0 0 80px rgba(255, 210, 90, 0.2);
+  width: min(250px, 58vw);
+
+  filter: drop-shadow(
+    0 0 12px rgba(255, 210, 90, 0.12)
+  );
 }
 
 .logo img {
   width: 100%;
-  border-radius: 20px;
-  background: #efe9df;
+  height: auto;
 }
+
+/* ==========================================
+   INVITATION EYEBROW
+========================================== */
 
 .eyebrow {
   margin-top: 44px;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
+
   max-width: 100%;
   color: var(--gold-2);
+
   font-size: clamp(0.66rem, 2.4vw, 0.95rem);
   font-weight: 500;
   letter-spacing: 0.34em;
@@ -166,44 +344,72 @@ address { font-style: normal; }
   flex: 0 1 80px;
   min-width: 16px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(233, 199, 102, 0), var(--gold-2));
+
+  background: linear-gradient(
+    90deg,
+    rgba(233, 199, 102, 0),
+    var(--gold-2)
+  );
 }
-.eyebrow__rule:last-child { transform: scaleX(-1); }
+
+.eyebrow__rule:last-child {
+  transform: scaleX(-1);
+}
+
+/* ==========================================
+   HEADLINE
+========================================== */
 
 .headline {
   margin-top: 24px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   font-family: var(--font-display);
   text-transform: uppercase;
   line-height: 1.05;
 }
 
 .headline__top {
+  color: var(--text);
   font-size: clamp(1.5rem, 6.4vw, 3.4rem);
   font-weight: 500;
   letter-spacing: 0.55em;
   padding-left: 0.55em;
-  color: var(--text);
 }
 
 .headline__bottom {
   margin-top: 6px;
+
   font-size: clamp(1.7rem, 7.6vw, 5.4rem);
   font-weight: 700;
   letter-spacing: 0.08em;
   padding-left: 0.08em;
-  animation: rise 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) var(--t) both, shimmer 8s ease-in-out 7s infinite alternate;
+
+  animation:
+    rise 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) var(--t) both,
+    shimmer 8s ease-in-out 7s infinite alternate;
 }
 
 @keyframes shimmer {
-  from { background-position: 0% 0; }
-  to   { background-position: 100% 0; }
+  from {
+    background-position: 0% 0;
+  }
+
+  to {
+    background-position: 100% 0;
+  }
 }
+
+/* ==========================================
+   BRAND NAME
+========================================== */
 
 .brand {
   margin-top: 40px;
+
   font-family: var(--font-display);
   font-size: clamp(1.05rem, 4.2vw, 2rem);
   font-weight: 600;
@@ -214,38 +420,65 @@ address { font-style: normal; }
 
 .brand-sub {
   margin-top: 8px;
+
   font-size: clamp(0.7rem, 2.6vw, 1rem);
   font-weight: 500;
   letter-spacing: 0.4em;
   padding-left: 0.4em;
+
   text-transform: uppercase;
   color: var(--text-soft);
 }
 
-/* ---------- Details panel ---------- */
+/* ==========================================
+   EVENT DETAILS CARD
+========================================== */
 
 .details {
   position: relative;
+  width: 100%;
   max-width: var(--column);
-  margin-inline: auto;
-  padding: clamp(36px, 6vw, 64px) clamp(20px, 5vw, 56px) clamp(32px, 5vw, 52px);
-  background: linear-gradient(180deg, #14110b, var(--panel));
+
+  margin-left: auto;
+  margin-right: auto;
+
+  padding:
+    clamp(36px, 6vw, 64px)
+    clamp(20px, 5vw, 56px)
+    clamp(32px, 5vw, 52px);
+
+  background: linear-gradient(
+    180deg,
+    #14110b,
+    var(--panel)
+  );
+
   border: 1px solid var(--gold-line);
   border-radius: 4px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 6px var(--panel), inset 0 0 0 7px rgba(233, 199, 102, 0.16);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 6px var(--panel),
+    inset 0 0 0 7px rgba(233, 199, 102, 0.16);
+
   display: flex;
   flex-direction: column;
   gap: clamp(30px, 5vw, 48px);
 }
 
+/* Decorative gold ornament */
+
 .ornament {
   position: absolute;
   top: 0;
   left: 50%;
+
   width: min(260px, 60%);
+
   display: flex;
   align-items: center;
   gap: 12px;
+
   transform: translate(-50%, -50%);
   background: var(--ink);
   padding: 0 14px;
@@ -265,6 +498,10 @@ address { font-style: normal; }
   transform: rotate(45deg);
 }
 
+/* ==========================================
+   EVENT DATE, TIME AND VENUE
+========================================== */
+
 .info {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -273,23 +510,27 @@ address { font-style: normal; }
 }
 
 .info__item {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+
   padding: 6px clamp(10px, 2vw, 28px);
-  min-width: 0;
 }
 
-.info__item + .info__item { border-left: 1px solid var(--gold-line); }
+.info__item + .info__item {
+  border-left: 1px solid var(--gold-line);
+}
 
 .info__label {
+  color: var(--gold-2);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.4em;
   padding-left: 0.4em;
   text-transform: uppercase;
-  color: var(--gold-2);
 }
 
 .info__main {
@@ -302,18 +543,32 @@ address { font-style: normal; }
   text-wrap: balance;
 }
 
-.info__main--time { font-variant-numeric: tabular-nums; }
-.info__main--venue { font-size: clamp(1.15rem, 2.6vw, 1.7rem); }
+.info__main--time {
+  font-variant-numeric: tabular-nums;
+}
 
-.info__address { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.info__main--venue {
+  font-size: clamp(1.15rem, 2.6vw, 1.7rem);
+}
+
+.info__address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
 
 .info__sub {
+  color: var(--text-soft);
   font-size: clamp(0.82rem, 1.8vw, 1rem);
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-soft);
 }
+
+/* ==========================================
+   LOCATION SECTION
+========================================== */
 
 .visit {
   display: flex;
@@ -321,6 +576,7 @@ address { font-style: normal; }
   align-items: center;
   justify-content: center;
   gap: 28px 48px;
+
   padding-top: clamp(26px, 4vw, 40px);
   border-top: 1px solid var(--gold-line);
 }
@@ -336,30 +592,42 @@ address { font-style: normal; }
   width: 184px;
   max-width: 100%;
   padding: 14px;
+
   background: #ffffff;
   border: 2px solid var(--gold-2);
   border-radius: 6px;
+
   box-shadow: 0 0 40px rgba(233, 199, 102, 0.2);
 }
 
-.qr__box svg { display: block; width: 100%; height: auto; }
+.qr__box svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ==========================================
+   VISIT TEXT AND BUTTONS
+========================================== */
 
 .qr__caption {
+  color: var(--gold-2);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.32em;
   padding-left: 0.32em;
   text-transform: uppercase;
-  color: var(--gold-2);
 }
 
 .visit__text {
   flex: 1 1 280px;
   max-width: 420px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+
   text-align: center;
 }
 
@@ -381,23 +649,33 @@ address { font-style: normal; }
 
 .btn {
   flex: 1 1 180px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   min-height: 52px;
   padding: 12px 22px;
   border-radius: 2px;
+
   font-family: var(--font-body);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   text-decoration: none;
+
   border: 1px solid var(--gold-2);
-  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.btn:hover { transform: translateY(-2px); }
+.btn:hover {
+  transform: translateY(-2px);
+}
 
 .btn--gold {
   background: var(--gold-gradient);
@@ -405,19 +683,29 @@ address { font-style: normal; }
   color: #1a1305;
   border-color: transparent;
 }
-.btn--gold:hover { background-position: 100% 0; }
+
+.btn--gold:hover {
+  background-position: 100% 0;
+}
 
 .btn--line {
   background: transparent;
   color: var(--gold-2);
 }
-.btn--line:hover { background: var(--gold-2); color: #1a1305; }
 
-/* ---------- Footer ---------- */
+.btn--line:hover {
+  background: var(--gold-2);
+  color: #1a1305;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
 
 .footer {
   margin-top: 56px;
   text-align: center;
+
   font-size: 0.72rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
@@ -431,96 +719,73 @@ address { font-style: normal; }
   color: var(--gold-2);
 }
 
-/* ---------- Entrance ---------- */
+/* ==========================================
+   ENTRANCE ANIMATIONS
+========================================== */
 
 [data-reveal] {
-  animation: rise 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) var(--t, 0s) both;
+  animation:
+    rise 1.2s cubic-bezier(0.2, 0.7, 0.2, 1)
+    var(--t, 0s) both;
 }
 
 @keyframes rise {
-  from { opacity: 0; transform: translateY(22px); filter: blur(6px); }
-  to   { opacity: 1; transform: none; filter: none; }
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }
 
 @keyframes fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+  from {
+    opacity: 0;
+  }
 
-/* ---------- Small screens ---------- */
-
-@media (max-width: 700px) {
-  .info { grid-template-columns: minmax(0, 1fr); gap: 22px; }
-  .info__item + .info__item { border-left: 0; border-top: 1px solid var(--gold-line); padding-top: 22px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .stage::before, [data-reveal], #dust, .headline__bottom { animation: none; }
-  .btn { transition: none; }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ==========================================
-   RESPONSIVE DESIGN
-   Phone | Tablet | Laptop | Desktop
-   Preserves original invitation design
+   SCROLL REVEAL
 ========================================== */
 
-/* Prevent padding and borders from causing overflow */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+.details.scroll-reveal,
+.footer.scroll-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-html {
-  width: 100%;
-  overflow-x: clip;
-}
-
-body {
-  width: 100%;
-  min-width: 0;
-  overflow-x: clip;
-}
-
-.page {
-  width: 100%;
-  min-width: 0;
-}
-
-/* Keep images and canvases inside the screen */
-img,
-canvas {
-  max-width: 100%;
-}
-
-.stage,
-.stage__inner,
-.details,
-.footer {
-  min-width: 0;
-  max-width: 100%;
+.details.scroll-reveal.is-visible,
+.footer.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ==========================================
-   LARGE LAPTOPS AND DESKTOPS
+   LARGE DESKTOPS
 ========================================== */
 
 @media (min-width: 1200px) {
   :root {
     --gutter: 28px;
-    --hang: clamp(440px, 42vw, 610px);
+    --hang: clamp(380px, 34vw, 500px);
     --column: 1100px;
   }
 
-  .stage__inner,
-  .details {
-    width: 100%;
-  }
-
   .logo {
-    width: min(320px, 35vw);
+    width: min(260px, 26vw);
   }
 
   .headline__top {
@@ -534,6 +799,12 @@ canvas {
   .info__item {
     padding-inline: 24px;
   }
+
+  .lights,
+  #lights {
+    width: 125%;
+    height: var(--hang);
+  }
 }
 
 /* ==========================================
@@ -543,20 +814,16 @@ canvas {
 @media (min-width: 701px) and (max-width: 1199px) {
   :root {
     --gutter: 22px;
-    --hang: clamp(350px, 44vw, 500px);
+    --hang: clamp(330px, 38vw, 450px);
     --column: 1000px;
   }
 
   .stage {
-    padding-bottom: 48px;
-  }
-
-  .stage__inner {
-    width: 100%;
+    padding-bottom: 44px;
   }
 
   .logo {
-    width: clamp(210px, 29vw, 290px);
+    width: clamp(170px, 24vw, 230px);
   }
 
   .eyebrow {
@@ -608,28 +875,24 @@ canvas {
   .info__sub {
     letter-spacing: 0.1em;
   }
-
-  .visit {
-    gap: 28px;
-  }
 }
 
 /* ==========================================
-   TABLETS — LANDSCAPE AND PORTRAIT
+   TABLETS
 ========================================== */
 
 @media (min-width: 601px) and (max-width: 900px) {
   :root {
     --gutter: 20px;
-    --hang: clamp(310px, 48vw, 430px);
+    --hang: clamp(290px, 42vw, 380px);
   }
 
   .stage {
-    padding-bottom: 42px;
+    padding-bottom: 38px;
   }
 
   .logo {
-    width: clamp(190px, 34vw, 260px);
+    width: clamp(160px, 28vw, 210px);
   }
 
   .eyebrow {
@@ -740,7 +1003,7 @@ canvas {
 @media (max-width: 600px) {
   :root {
     --gutter: 14px;
-    --hang: clamp(245px, 72vw, 340px);
+    --hang: clamp(230px, 64vw, 310px);
     --column: 100%;
   }
 
@@ -752,38 +1015,50 @@ canvas {
   }
 
   .stage {
-    margin-left: calc(-1 * max(12px, env(safe-area-inset-left)));
-    margin-right: calc(-1 * max(12px, env(safe-area-inset-right)));
+    margin-left: calc(
+      -1 * max(12px, env(safe-area-inset-left))
+    );
+
+    margin-right: calc(
+      -1 * max(12px, env(safe-area-inset-right))
+    );
 
     padding-left: max(12px, env(safe-area-inset-left));
     padding-right: max(12px, env(safe-area-inset-right));
-    padding-bottom: 38px;
+    padding-bottom: 32px;
   }
 
   .stage__inner {
     width: 100%;
   }
 
-  /* Logo */
+  .lights,
+  #lights {
+    width: 145%;
+    height: var(--hang);
+  }
+
+  .stage::before {
+    width: 140%;
+    height: var(--hang);
+    background: radial-gradient(
+      ellipse 65% 48% at 50% 28%,
+      rgba(255, 215, 140, 0.07) 0%,
+      rgba(255, 200, 110, 0.03) 42%,
+      rgba(255, 190, 90, 0.008) 65%,
+      transparent 78%
+    );
+  }
+
   .logo {
-    width: clamp(175px, 58vw, 240px);
+    width: clamp(150px, 46vw, 195px);
     max-width: 82%;
-    padding: 4px;
-    border-radius: 16px;
   }
 
-  .logo img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-  }
-
-  /* Invitation introduction */
   .eyebrow {
     width: 100%;
     margin-top: 27px;
     gap: 7px;
-
     font-size: clamp(0.55rem, 2.5vw, 0.72rem);
     letter-spacing: 0.08em;
     line-height: 1.5;
@@ -794,7 +1069,6 @@ canvas {
     min-width: 12px;
   }
 
-  /* Main heading */
   .headline {
     max-width: 100%;
     margin-top: 20px;
@@ -811,24 +1085,19 @@ canvas {
   .headline__bottom {
     max-width: 100%;
     margin-top: 8px;
-
     font-size: clamp(1.85rem, 8.7vw, 3.1rem);
     letter-spacing: 0.015em;
     padding-left: 0.015em;
-
     overflow-wrap: anywhere;
     text-align: center;
   }
 
-  /* Company name */
   .brand {
     max-width: 100%;
     margin-top: 26px;
-
     font-size: clamp(1rem, 4.5vw, 1.45rem);
     letter-spacing: 0.08em;
     padding-left: 0.08em;
-
     overflow-wrap: anywhere;
     line-height: 1.5;
   }
@@ -836,24 +1105,16 @@ canvas {
   .brand-sub {
     max-width: 100%;
     margin-top: 6px;
-
     font-size: clamp(0.64rem, 2.9vw, 0.82rem);
     letter-spacing: 0.12em;
     padding-left: 0.12em;
-
     overflow-wrap: anywhere;
   }
 
-  /* Event details card */
   .details {
     width: 100%;
     padding: 36px 17px 25px;
     gap: 26px;
-  }
-
-  .details::before {
-    inset: 7px;
-    pointer-events: none;
   }
 
   .ornament {
@@ -867,7 +1128,6 @@ canvas {
     height: 7px;
   }
 
-  /* Stack the date, time and venue vertically */
   .info {
     width: 100%;
     grid-template-columns: minmax(0, 1fr);
@@ -885,7 +1145,6 @@ canvas {
   .info__item:nth-child(3) {
     grid-column: auto;
     padding-top: 20px;
-
     border-top: 1px solid var(--gold-line);
     border-left: 0;
   }
@@ -920,13 +1179,11 @@ canvas {
     overflow-wrap: anywhere;
   }
 
-  /* QR code and buttons */
   .visit {
     width: 100%;
     flex-direction: column;
     align-items: center;
     gap: 23px;
-
     padding-top: 25px;
   }
 
@@ -973,20 +1230,16 @@ canvas {
     min-width: 0;
     min-height: 48px;
     flex: 1 1 auto;
-
     padding: 13px 10px;
-
     font-size: 0.68rem;
     letter-spacing: 0.09em;
     line-height: 1.5;
     overflow-wrap: anywhere;
   }
 
-  /* Footer */
   .footer {
     margin-top: 32px;
     padding-inline: 5px;
-
     font-size: 0.64rem;
     letter-spacing: 0.15em;
     line-height: 2;
@@ -1001,18 +1254,23 @@ canvas {
 
 /* ==========================================
    VERY SMALL PHONES
-   320px–375px screens
 ========================================== */
 
 @media (max-width: 375px) {
   :root {
     --gutter: 10px;
-    --hang: 245px;
+    --hang: 225px;
   }
 
   body {
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  .lights,
+  #lights {
+    width: 150%;
+    height: var(--hang);
   }
 
   .headline__top {
@@ -1064,15 +1322,21 @@ canvas {
 
 @media (max-height: 500px) and (orientation: landscape) {
   :root {
-    --hang: 250px;
+    --hang: 240px;
   }
 
   .stage {
     padding-bottom: 30px;
   }
 
+  .lights,
+  #lights {
+    width: 125%;
+    height: var(--hang);
+  }
+
   .logo {
-    width: 180px;
+    width: 140px;
   }
 
   .eyebrow {
@@ -1100,11 +1364,44 @@ canvas {
   .stage::before,
   [data-reveal],
   #dust,
-  .headline__bottom {
+  .headline__bottom,
+  .lights,
+  #lights {
     animation: none !important;
   }
 
   .btn {
     transition: none;
   }
+
+  .details.scroll-reveal,
+  .footer.scroll-reveal,
+  .details.scroll-reveal.is-visible,
+  .footer.scroll-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* FORCE CHANDELIER TO BE WIDER */
+.stage {
+  overflow: hidden;
+}
+
+.stage canvas.lights,
+.stage canvas#lights,
+.stage .lights,
+.stage #lights {
+  position: absolute !important;
+  left: 50% !important;
+  top: 0 !important;
+
+  width: 140% !important;
+  max-width: none !important;
+
+  height: var(--hang) !important;
+
+  transform: translateX(-50%) !important;
+  transform-origin: top center !important;
 }
